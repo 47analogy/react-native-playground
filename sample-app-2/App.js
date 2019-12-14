@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Button, TextInput } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  TextInput,
+  FlatList,
+} from "react-native";
 
 export default function App() {
   const [newTodo, setNewTodo] = useState("");
@@ -13,8 +20,6 @@ export default function App() {
     setTodoList(currentTodos => [...currentTodos, newTodo]); // makes sure getting most current state
   };
 
-  let todoIndex = 0;
-
   return (
     <View style={styles.screen}>
       <View style={styles.inputBox}>
@@ -26,13 +31,14 @@ export default function App() {
         />
         <Button title="Add" onPress={addNewTodoHandler} />
       </View>
-      <View>
-        {todoList.map(todo => (
-          <View style={styles.todoText} key={todoIndex++}>
-            <Text>{todo}</Text>
+      <FlatList
+        data={todoList}
+        renderItem={todoItems => (
+          <View style={styles.todoText}>
+            <Text>{todoItems.item}</Text>
           </View>
-        ))}
-      </View>
+        )}
+      />
     </View>
   );
 }
